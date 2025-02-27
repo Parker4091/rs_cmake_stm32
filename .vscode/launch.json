@@ -1,0 +1,71 @@
+// Configure debug launch settings
+{
+    "version": "0.2.0",
+    "projectName": "mw_example_project",
+    "configurations": [
+        {
+            "name": "mw_example_project launch - OpenOCD",
+            "cwd": "${workspaceRoot}",
+            "armToolchainPath": "/usr/local/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin/",
+            "executable": "${workspaceRoot}/arm-build/src/Debug/mw_example_project",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32l4x.cfg"
+            ],
+            "interface": "swd",
+            "runToEntryPoint": "main", // else it starts at reset handler - not interested
+            "svdFile": "/usr/local/cortex-debug-dp-stm32l4/data/STM32L4x5.svd", // Include svd to watch device peripherals
+            "swoConfig": {
+                "enabled": false,
+                "cpuFrequency": 160000000,
+                "swoFrequency": 4000000,
+                "source": "serial",
+                "decoders": [
+                    {
+                        "label": "ITM port 0 output",
+                        "type": "console",
+                        "port": 0,
+                        "showOnStartup": true,
+                        "encoding": "ascii"
+                    }
+                ]
+            },
+            "showDevDebugOutput": "raw"
+        },
+        {
+            "name": "mw_example_project integration_test - OpenOCD",
+            "cwd": "${workspaceRoot}",
+            "armToolchainPath": "/usr/local/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin/",
+            "executable": "${workspaceRoot}/arm-build/src/test/integration/Debug/test_integration",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32l4x.cfg"
+            ],
+            "interface": "swd",
+            "runToEntryPoint": "main", // else it starts at reset handler - not interested
+            "svdFile": "/usr/local/cortex-debug-dp-stm32l4/data/STM32L4x5.svd", // Include svd to watch device peripherals
+            "swoConfig": {
+                "enabled": false,
+                "cpuFrequency": 160000000,
+                "swoFrequency": 4000000,
+                "source": "serial",
+                "decoders": [
+                    {
+                        "label": "ITM port 0 output",
+                        "type": "console",
+                        "port": 0,
+                        "showOnStartup": true,
+                        "encoding": "ascii"
+                    }
+                ]
+            },
+            "showDevDebugOutput": "raw"
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.205.1/containers/docker-existing-dockerfile
+{
+	"name": "STM32 CMake Build Env",
+	"context": "..",
+	"dockerFile": "./Dockerfile",
+	"build": {
+		"args": {
+			"USERNAME": "${localEnv:USER}"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"marus25.cortex-debug",
+				"cnshenj.vscode-task-manager",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"twxs.cmake",
+				"ms-vscode.cmake-tools",
+				"eamodio.gitlens",
+				"matepek.vscode-catch2-test-adapter",
+				"hbenl.vscode-test-explorer",
+				"ms-vscode.vscode-serial-monitor"
+			],
+			"settings": {
+				"clang-format.language.c.enable": true,
+				"clang-format.language.cpp.enable": true,
+				"cmake.generator": "Ninja Multi-Config",
+				"cmake.setBuildTypeOnMultiConfig": true,
+				"cmake.configureOnOpen": true,
+				"editor.defaultFormatter": "ms-vscode.cpptools",
+				"editor.formatOnSave": true,
+				"editor.tabSize": 4,
+				"files.associations": {
+					"*.h": "c",
+					"*.c": "c",
+					"*.cpp": "cpp"
+				},
+				"terminal.integrated.defaultProfile.linux": "bash"
+			}
+		}
+	},
+	"runArgs": [
+		"--privileged",
+		"-v=/dev:/dev"
+	],
+	"postStartCommand": "sudo ln -s /usr/bin/clang-format-14 /usr/bin/clang-format", // Note (smodi): Is there a better way to handle this?
+	"containerEnv": {},
+	"remoteUser": "${localEnv:USER}"
+}

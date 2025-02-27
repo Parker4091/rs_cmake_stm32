@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Cross-compile Debug Build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"command": "mkdir -p ${workspaceFolder}/arm-build; cmake -G \"Ninja Multi-Config\" -Barm-build --toolchain arm-build/_deps/cmake-src/toolchain/arm-none-eabi-gcc.toolchain.cmake -DSTATIC_ANALYSIS=OFF -DBUILD_TEST=OFF .; cd arm-build; ninja all",
+			"detail": "Configure and build the ARM image"
+		},
+		{
+			"type": "shell",
+			"label": "Cross-compile Debug Clean",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"command": "mkdir -p ${workspaceFolder}/arm-build; cmake -G \"Ninja Multi-Config\" -Barm-build --toolchain arm-build/_deps/cmake-src/toolchain/arm-none-eabi-gcc.toolchain.cmake -DSTATIC_ANALYSIS=OFF -DBUILD_TEST=OFF .; cd arm-build; ninja clean",
+			"detail": "Configure and build the ARM image"
+		},
+		{
+			"type": "cmake",
+			"label": "CMake: clean rebuild",
+			"command": "cleanRebuild",
+			"targets": [
+				"all"
+			],
+			"group": "build",
+			"problemMatcher": [],
+			"detail": "CMake template clean rebuild task"
+		}
+	]
+}
