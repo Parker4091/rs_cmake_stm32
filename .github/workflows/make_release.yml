@@ -1,0 +1,94 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseNotes:
+        description: 'Release notes'
+        required: true
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set up variables
+        run: |
+          ARTIFACT_NAME="PowerTest-PCB-0-elf-files"
+          BUILD_WORKFLOW_FILE_NAME="test_fw.yml"
+          echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_ENV
+          echo "build_workflow_file_name=${BUILD_WORKFLOW_FILE_NAME}" >> $GITHUB_ENV
+
+      - name: Extract version and create tag
+        run: |
+          VERSION=$(grep -oP 'project\(muon_powertest VERSION \K[^ ]+' CMakeLists.txt)
+          echo "Creating git tag: $VERSION"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag $VERSION
+          git push origin $VERSION
+          echo "version=$VERSION" >> $GITHUB_ENV
+          
+      - name: Get workflow runs
+        id: get_runs
+        run: |
+          WORKFLOW_RUNS=$(curl \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/${{ env.build_workflow_file_name }}/runs")
+          LATEST_RUN_ID=$(echo $WORKFLOW_RUNS | jq -r '.workflow_runs[0].id')
+          echo "Latest workflow run ID: ${LATEST_RUN_ID}"
+          echo "run_id=${LATEST_RUN_ID}" >> $GITHUB_ENV
+      
+      - name: Get artifact details
+        id: get_artifacts
+        run: |
+          ARTIFACTS=$(curl \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ env.run_id }}/artifacts")
+          ARTIFACTS_LENGTH=$(echo $ARTIFACTS | jq -r '.artifacts | length')
+          for (( i=0; i<$ARTIFACTS_LENGTH; i++ )); do
+            CURRENT_ARTIFACT_NAME=$(echo $ARTIFACTS | jq -r ".artifacts[$i].name")
+            echo "CURRENT_ARTIFACT_NAME: ${CURRENT_ARTIFACT_NAME}"
+            if [[ "$CURRENT_ARTIFACT_NAME" == "${{ env.artifact_name }}" ]]; then
+              ARTIFACT_DOWNLOAD_URL=$(echo $ARTIFACTS | jq -r ".artifacts[$i].archive_download_url")
+              echo "Artifact download URL: $ARTIFACT_DOWNLOAD_URL"
+              echo "url=$ARTIFACT_DOWNLOAD_URL" >> $GITHUB_ENV
+              break
+            fi
+          done
+      
+      - name: Download artifact
+        run: |
+          curl \
+            -L \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -o "${{ env.artifact_name }}" \
+            "${{ env.url }}"
+          unzip "${{ env.artifact_name }}"
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.version }}
+          release_name: ${{ env.version }}
+          body: ${{ github.event.inputs.releaseNotes }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "./${{ env.artifact_name }}"
+          asset_name: "${{ env.artifact_name }}"
+          asset_content_type: application/zip

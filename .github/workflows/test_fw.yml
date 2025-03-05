@@ -1,0 +1,209 @@
+
+name: Software Testing using CMake and C/C++ Compilers
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - "releases/*"
+    tags:
+      - "*"
+
+env:
+  BASE_BUILD_DIR: ci_build
+  DEPS_DIR: ci_build/deps
+  CLANG_DIR: ci_build/clang
+  GCC_DIR: ci_build/gcc
+  TARGET_DIR: ci_build/target
+  CLANG_VER: 14
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/retlek-systems-inc/rs_cmake/sw-arm-none-eabi:latest
+    env:
+      CMAKE_BUILD_ARGS: -DSTATIC_ANALYSIS=OFF
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Cache CMake Build directories
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.BASE_BUILD_DIR }}
+          key: ${{ runner.os }}-CMakeFiles-
+          restore-keys: |
+            ${{ runner.os }}-CMakeFiles-
+      - name: Preparing build directories
+        run: |
+          mkdir -p ${DEPS_DIR}
+          mkdir -p ${CLANG_DIR}
+          mkdir -p ${GCC_DIR}
+      - name: Preparing CMake clang-${{ env.CLANG_VER }}
+        run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
+      - name: Preparing CMake gcc
+        run: cmake -G "Ninja Multi-Config" -B${GCC_DIR} -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
+
+  build-and-test:
+    name: ${{ matrix.name }} Build and Test
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/retlek-systems-inc/rs_cmake/sw-arm-none-eabi:latest
+      credentials:
+        username: ${{ secrets.rs_docker_registry_username }}
+        password: ${{ secrets.rs_docker_registry_password }}
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Clang Debug"
+            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+            build_type: Debug
+          - name: "Clang RelWithDebInfo"
+            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+            build_type: RelWithDebInfo
+          - name: "Clang Address Sanitizer"
+            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+            build_type: Asan
+          - name: "Clang Undefined Behavior Sanitizer"
+            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+            build_type: Ubsan
+          # - name: "Clang Thread Sanitizer"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: Tsan
+          - name: "GCC Debug"
+            build_dir: ci_build/gcc #{{ env.GCC_DIR}}
+            build_type: Debug
+          - name: "GCC RelWithDebInfo"
+            build_dir: ci_build/gcc #{{ env.GCC_DIR}}
+            build_type: RelWithDebInfo
+          - name: "GCC Coverage"
+            build_dir: ci_build/gcc #{{ env.GCC_DIR}}
+            build_type: Coverage
+    env:
+      BUILD_DIR: ${{ matrix.build_dir }}
+      BUILD_TYPE: ${{ matrix.build_type }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Cached CMake Build directories
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.BASE_BUILD_DIR }}
+          key: ${{ runner.os }}-CMakeFiles-
+          restore-keys: |
+            ${{ runner.os }}-CMakeFiles-
+      - name: Build ${{ matrix.build_type }} in ${{ matrix.build_dir }}
+        run: cmake --build ${BUILD_DIR} --config ${BUILD_TYPE} -- -k 10000
+      - name: Test ${{ matrix.build_type }} in ${{ matrix.build_dir }}
+        run: ctest --test-dir ${BUILD_DIR} -C ${BUILD_TYPE} --output-on-failure --output-junit ${BUILD_TYPE}_report.xml
+      - name: Coverage Report ${{ matrix.build_type }} in ${{ matrix.build_dir }}
+        if: ${{ matrix.build_type == 'Coverage' }} # Only perform for Coverage.
+        run: cmake --build ${BUILD_DIR} --config ${BUILD_TYPE} --target code-coverage
+      - name: Code Coverage Artifacts
+        if: ${{ matrix.build_type == 'Coverage' }} # Only perform for Coverage.
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-results
+          path: ${{ matrix.build_dir }}/code-coverage/
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always()
+        with:
+          check_name: "Test Report for ${{ matrix.name }}"
+          fail_on_failure: true
+          require_tests: true
+          report_paths: "${{ matrix.build_dir }}/${{ matrix.build_type }}_report.xml"
+
+  analyze:
+    name: ${{ matrix.name }} Analysis
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/retlek-systems-inc/rs_cmake/sw-arm-none-eabi:latest
+      credentials:
+        username: ${{ secrets.rs_docker_registry_username }}
+        password: ${{ secrets.rs_docker_registry_password }}
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "ClangTidy"
+            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+            build_type: Debug
+            build_args: -DSTATIC_ANALYSIS=ON -DUSE_CLANG_TIDY=ON
+          - name: "CppCheck"
+            build_dir: ci_build/gcc #{{ env.GCC_DIR}}
+            build_type: Debug
+            build_args: -DSTATIC_ANALYSIS=ON -DUSE_CLANG_TIDY=OFF -DUSE_CPPCHECK=ON
+          - name: "CppLint"
+            build_dir: ci_build/gcc #{{ env.GCC_DIR}}
+            build_type: Debug
+            build_args: -DSTATIC_ANALYSIS=ON -DUSE_CLANG_TIDY=OFF -DUSE_CPPLINT=ON
+    env:
+      BUILD_DIR: ${{ matrix.build_dir }}
+      BUILD_TYPE: ${{ matrix.build_type }}
+      CMAKE_BUILD_ARGS: ${{ matrix.build_args }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Cached CMake Build directories
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.BASE_BUILD_DIR }}
+          key: ${{ runner.os }}-CMakeFiles-
+          restore-keys: |
+            ${{ runner.os }}-CMakeFiles-
+      - name: Preparing clang-${{ env.CLANG_VER }}
+        run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
+      - name: Build ${{ matrix.build_type }} in ${{ matrix.build_dir }}
+        run: cmake --build ${BUILD_DIR} --config ${BUILD_TYPE} -- -k 10000
+      - name: Scan Build ${{ matrix.build_type }} in ${{ matrix.build_dir }}
+        run: scan-build-14 -o scan-build -k --status-bugs -internal-stats --keep-empty cmake --build ${BUILD_DIR} --config ${BUILD_TYPE}
+      - name: Scan Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.build_type }}-scan-results
+          path: ${{ matrix.build_dir }}/scan-build/
+          if-no-files-found: ignore
+
+  build-for-target:
+    name: ${{ matrix.name }} Build Target (cross-compile)
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/retlek-systems-inc/rs_cmake/sw-arm-none-eabi:latest
+    needs: [build-and-test, analyze]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "PowerTest PCB Version A"
+            build_dir: ci_build/powertest-pcb-A
+            pcb_version: 0
+    env:
+      CMAKE_BUILD_ARGS: -DSTATIC_ANALYSIS=OFF -DBUILD_TEST=OFF
+      BUILD_DIR: ${{ matrix.build_dir }}
+      PCB_VER: -DCENTRAL_PCB_VERSION=${{ matrix.pcb_version }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Preparing build directories
+        run: |
+          mkdir -p ${DEPS_DIR}
+          mkdir -p ${BUILD_DIR}
+      - name: Preparing CMake Target
+        run: cmake -G "Ninja Multi-Config" -B${BUILD_DIR} --toolchain ${DEPS_DIR}/cmake-src/toolchain/arm-none-eabi-gcc.toolchain.cmake -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${PCB_VER} ${CMAKE_BUILD_ARGS} .
+      - name: Build Debug in ${{ matrix.build_dir }}
+        run: cmake --build ${BUILD_DIR} --config Debug -- -k 10000
+      - name: Build RelWithDebInfo in ${{ matrix.build_dir }}
+        run: cmake --build ${BUILD_DIR} --config RelWithDebInfo -- -k 10000
+      - name: Compile Elf File Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: PowerTest-PCB-${{ matrix.pcb_version }}-elf-files
+          path: |
+              ${{ matrix.build_dir }}/src/*/*.elf
+              ${{ matrix.build_dir }}/src/*/*.hex
+              ${{ matrix.build_dir }}/src/*/*.bin
+          if-no-files-found: error
