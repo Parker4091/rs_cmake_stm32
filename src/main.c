@@ -6,7 +6,7 @@
 #include "dma.h"
 #include "gpio.h"
 #include "spi.h"
-#include "stm32l4xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "string.h"
 #include "timer.h"
 #include "usart.h"

@@ -1,15 +1,15 @@
 
 #--------------------------------------------------------------------
-add_library(stm32l4xx_hal_conf  INTERFACE)
-add_library(stm32l4xx::hal_conf ALIAS stm32l4xx_hal_conf )
+add_library(stm32h7xx_hal_conf  INTERFACE)
+add_library(stm32h7xx::hal_conf ALIAS stm32h7xx_hal_conf )
 
-target_sources(stm32l4xx_hal_conf
+target_sources(stm32h7xx_hal_conf
   INTERFACE
-    include/stm32l4xx_hal_conf.h
-    system_stm32l4xx.c
+    include/stm32h7xx_hal_conf.h
+    system_stm32h7xx.c
 )
 
-target_include_directories(stm32l4xx_hal_conf
+target_include_directories(stm32h7xx_hal_conf
   INTERFACE
     include
 )

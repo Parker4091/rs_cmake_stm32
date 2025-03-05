@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    system_stm32l4xx.c
+  * @file    system_stm32h7xx.c
   * @author  MCD Application Team
   * @brief   CMSIS Cortex-M4 Device Peripheral Access Layer System Source File
   *
@@ -8,7 +8,7 @@
   *   user application:
   *      - SystemInit(): This function is called at startup just after reset and
   *                      before branch to main program. This call is made inside
-  *                      the "startup_stm32l4xx.s" file.
+  *                      the "startup_stm32h7xx.s" file.
   *
   *      - SystemCoreClock variable: Contains the core clock (HCLK), it can be used
   *                                  by the user application to setup the SysTick
@@ -19,7 +19,7 @@
   *                                 during program execution.
   *
   *   After each device reset the MSI (4 MHz) is used as system clock source.
-  *   Then SystemInit() function is called, in "startup_stm32l4xx.s" file, to
+  *   Then SystemInit() function is called, in "startup_stm32h7xx.s" file, to
   *   configure the system clock before to branch to main program.
   *
   *   This file configures the system clock as follows:
@@ -80,7 +80,7 @@
   * @{
   */
 
-/** @addtogroup stm32l4xx_system
+/** @addtogroup stm32h7xx_system
   * @{
   */
 
@@ -88,7 +88,7 @@
   * @{
   */
 
-#include "stm32l4xx.h"
+#include "stm32h7xx.h"
 
 /**
   * @}
@@ -230,15 +230,15 @@ void SystemInit(void)
   *           - If SYSCLK source is PLL, SystemCoreClock will contain the HSE_VALUE(***)
   *             or HSI_VALUE(*) or MSI_VALUE(*) multiplied/divided by the PLL factors.
   *
-  *         (*) MSI_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+  *         (*) MSI_VALUE is a constant defined in stm32h7xx_hal.h file (default value
   *             4 MHz) but the real value may vary depending on the variations
   *             in voltage and temperature.
   *
-  *         (**) HSI_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+  *         (**) HSI_VALUE is a constant defined in stm32h7xx_hal.h file (default value
   *              16 MHz) but the real value may vary depending on the variations
   *              in voltage and temperature.
   *
-  *         (***) HSE_VALUE is a constant defined in stm32l4xx_hal.h file (default value
+  *         (***) HSE_VALUE is a constant defined in stm32h7xx_hal.h file (default value
   *              8 MHz), user has to ensure that HSE_VALUE is same as the real
   *              frequency of the crystal used. Otherwise, this function may
   *              have wrong result.

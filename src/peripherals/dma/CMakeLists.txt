@@ -32,7 +32,7 @@ target_clang_tidy_definitions(TARGET peripherals_dma
 
 target_link_libraries(peripherals_dma
     PRIVATE
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_driver
         mw_example_project::hw_config
         mw_example_project::util
 )

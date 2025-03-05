@@ -1,0 +1,136 @@
+macro(add_stm32h7xx_hal_driver_lib  TARGET)
+
+add_library(${TARGET} STATIC)
+
+target_sources(${TARGET}
+    PRIVATE
+        Inc/stm32h7xx_hal.h
+        Inc/stm32h7xx_hal_adc.h
+        Inc/stm32h7xx_hal_adc_ex.h
+        Inc/stm32h7xx_hal_cortex.h
+        Inc/stm32h7xx_hal_crc.h
+        Inc/stm32h7xx_hal_crc_ex.h
+        Inc/stm32h7xx_hal_dac.h
+        Inc/stm32h7xx_hal_dac_ex.h
+        Inc/stm32h7xx_hal_def.h
+        Inc/stm32h7xx_hal_dma.h
+        Inc/stm32h7xx_hal_dma_ex.h
+        Inc/stm32h7xx_hal_exti.h
+        Inc/stm32h7xx_hal_flash.h
+        Inc/stm32h7xx_hal_flash_ex.h
+        Inc/stm32h7xx_hal_gpio.h
+        Inc/stm32h7xx_hal_gpio_ex.h
+        Inc/stm32h7xx_hal_hcd.h
+        Inc/stm32h7xx_hal_i2c.h
+        Inc/stm32h7xx_hal_i2c_ex.h
+        Inc/stm32h7xx_hal_mdma.h
+        Inc/stm32h7xx_hal_pcd.h
+        Inc/stm32h7xx_hal_pcd_ex.h
+        Inc/stm32h7xx_hal_pwr.h
+        Inc/stm32h7xx_hal_pwr_ex.h
+        Inc/stm32h7xx_hal_rcc.h
+        Inc/stm32h7xx_hal_rcc_ex.h
+        Inc/stm32h7xx_hal_spi.h
+        Inc/stm32h7xx_hal_spi_ex.h
+        Inc/stm32h7xx_hal_uart.h
+        Inc/stm32h7xx_hal_uart_ex.h
+        Inc/stm32h7xx_hal_usart.h
+        Inc/stm32h7xx_hal_usart_ex.h
+        Inc/stm32h7xx_ll_adc.h
+        Inc/stm32h7xx_ll_crc.h
+        Inc/stm32h7xx_ll_dac.h
+        Inc/stm32h7xx_ll_dma.h
+        Inc/stm32h7xx_ll_exti.h
+        Inc/stm32h7xx_ll_gpio.h
+        Inc/stm32h7xx_ll_i2c.h
+        Inc/stm32h7xx_ll_pwr.h
+        Inc/stm32h7xx_ll_rcc.h
+        Inc/stm32h7xx_ll_spi.h
+        Inc/stm32h7xx_ll_usart.h
+        Inc/stm32h7xx_ll_utils.h
+
+        Src/stm32h7xx_hal.c
+        Src/stm32h7xx_hal_adc.c
+        Src/stm32h7xx_hal_adc_ex.c
+        Src/stm32h7xx_hal_cortex.c
+        Src/stm32h7xx_hal_crc.c
+        Src/stm32h7xx_hal_crc_ex.c
+        Src/stm32h7xx_hal_dac.c
+        Src/stm32h7xx_hal_dac_ex.c
+        Src/stm32h7xx_hal_dma.c
+        Src/stm32h7xx_hal_dma_ex.c
+        Src/stm32h7xx_hal_exti.c
+        Src/stm32h7xx_hal_flash.c
+        Src/stm32h7xx_hal_flash_ex.c
+        Src/stm32h7xx_hal_gpio.c
+        Src/stm32h7xx_hal_hcd.c
+        Src/stm32h7xx_hal_i2c.c
+        Src/stm32h7xx_hal_i2c_ex.c
+        Src/stm32h7xx_hal_mdma.c
+        Src/stm32h7xx_hal_pcd.c
+        Src/stm32h7xx_hal_pcd_ex.c
+        Src/stm32h7xx_hal_pwr.c
+        Src/stm32h7xx_hal_pwr_ex.c
+        Src/stm32h7xx_hal_rcc.c
+        Src/stm32h7xx_hal_rcc_ex.c
+        Src/stm32h7xx_hal_spi.c
+        Src/stm32h7xx_hal_spi_ex.c
+        Src/stm32h7xx_hal_uart.c
+        Src/stm32h7xx_hal_uart_ex.c
+        Src/stm32h7xx_hal_usart.c
+        Src/stm32h7xx_hal_usart_ex.c
+        Src/stm32h7xx_ll_adc.c
+        Src/stm32h7xx_ll_crc.c
+        Src/stm32h7xx_ll_dac.c
+        Src/stm32h7xx_ll_dma.c
+        Src/stm32h7xx_ll_exti.c
+        Src/stm32h7xx_ll_gpio.c
+        Src/stm32h7xx_ll_i2c.c
+        Src/stm32h7xx_ll_pwr.c
+        Src/stm32h7xx_ll_rcc.c
+        Src/stm32h7xx_ll_spi.c
+        Src/stm32h7xx_ll_usart.c
+        Src/stm32h7xx_ll_utils.c
+)
+
+
+target_include_directories(${TARGET} SYSTEM
+    PUBLIC
+        Inc
+)
+
+target_compile_options(${TARGET}
+    PRIVATE
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-cast-align>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-covered-switch-default>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-declaration-after-statement>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-documentation>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-documentation-unknown-command>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-empty-translation-unit>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-int-to-pointer-cast>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-missing-noreturn>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-missing-prototypes>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-missing-variable-declarations>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-overflow>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-pedantic>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-pointer-to-int-cast>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-reserved-macro-identifier>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-shorten-64-to-32>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-switch-enum>
+        $<$<COMPILE_LANG_AND_ID:C,Clang>:-Wno-unused-macros>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-unused-parameter>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-pointer-compare>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-extra-semi-stmt>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-undef>
+        $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wno-implicit-int-conversion>
+)
+
+endmacro()
+
+add_stm32h7xx_hal_driver_lib(stm32h7xx_hal_driver)
+
+target_link_libraries(stm32h7xx_hal_driver
+    PUBLIC
+        stm32h7xx::hal_conf
+        cmsis::device_h7
+)

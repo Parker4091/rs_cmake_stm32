@@ -3,17 +3,17 @@
 
 FetchContent_Declare( cmsis_core
   GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis_core
-  GIT_TAG        v5.6.0
+  GIT_TAG        v5.9.0
 )
 
-FetchContent_Declare( cmsis_device_l4
-  GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis_device_l4
-  GIT_TAG        v1.7.2
+FetchContent_Declare( cmsis_device_h7
+  GIT_REPOSITORY https://github.com/STMicroelectronics/cmsis_device_h7
+  GIT_TAG        v1.10.6
 )
 
-FetchContent_Declare( stm32l4xx_hal_driver
-  GIT_REPOSITORY https://github.com/STMicroelectronics/stm32l4xx_hal_driver
-  GIT_TAG        v1.13.3
+FetchContent_Declare( stm32h7xx_hal_driver
+  GIT_REPOSITORY https://github.com/STMicroelectronics/stm32h7xx_hal_driver
+  GIT_TAG        v1.11.5
 )
 
 FetchContent_Declare( fmt

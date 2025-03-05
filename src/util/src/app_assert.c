@@ -1,5 +1,5 @@
 #include "app_assert.h"
-#include "stm32l4xx_hal.h"
+#include "stm32h7xx_hal.h"
 
 void assert_handler( const char* file_name, uint32_t line )
 {

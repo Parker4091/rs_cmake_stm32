@@ -1,7 +1,7 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file         stm32l4xx_hal_msp.c
+  * @file         stm32h7xx_hal_msp.c
   * @brief        This file provides code for the MSP Initialization
   *               and de-Initialization codes.
   ******************************************************************************
@@ -19,7 +19,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "assert.h"
 
 /// @brief Initializes the Global MSP.

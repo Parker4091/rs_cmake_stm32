@@ -11,7 +11,7 @@
 #include "spi.h"
 #include "stdbool.h"
 #include "types.h"
-#include <stm32l4xx_hal.h>
+#include <stm32h7xx_hal.h>
 
 /*********************************** Types *************************************/
 #if defined( __clang__ )

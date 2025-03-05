@@ -25,7 +25,7 @@ target_link_libraries(debug_logging
     INTERFACE
         peripherals::usart
     PRIVATE
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_driver
 )
 
 # -----------------------------------------------------------------------------
@@ -61,5 +61,5 @@ target_link_libraries(util
         mw_example_project::hw_config
     PRIVATE
         peripherals::usart
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_driver
 )

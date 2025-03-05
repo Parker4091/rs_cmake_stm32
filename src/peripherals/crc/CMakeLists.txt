@@ -30,7 +30,7 @@ target_link_libraries(peripherals_crc
         mw_example_project::hw_config
         mw_example_project::util
     PRIVATE
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_driver
 )
 
 # -----------------------------------------------------------------------------

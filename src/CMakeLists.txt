@@ -61,8 +61,8 @@ target_link_libraries(mw_example_project
         mw_example_project::peripherals
         mw_example_project::util
         mw_example_project::util::debug_logging
-        stm32l4xx::hal_sys
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_sys
+        stm32h7xx::hal_driver
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-Wl,--start-group>
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:gcc>
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:c>

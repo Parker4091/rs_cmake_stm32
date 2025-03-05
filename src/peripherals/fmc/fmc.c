@@ -9,7 +9,7 @@
 #include "board.h"
 #include "fmc.h"
 #include "stdbool.h"
-#include "stm32l4xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "types.h"
 
 /************************************ Types *********************************************/

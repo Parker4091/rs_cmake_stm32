@@ -35,7 +35,7 @@ target_link_libraries(peripherals_spi
     PRIVATE
         mw_example_project::hw_config
         peripherals::dma
-        stm32l4xx::hal_driver
+        stm32h7xx::hal_driver
 )
 
 # -----------------------------------------------------------------------------

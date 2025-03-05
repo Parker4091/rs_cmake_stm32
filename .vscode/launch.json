@@ -13,11 +13,11 @@
             "servertype": "openocd",
             "configFiles": [
                 "interface/stlink.cfg",
-                "target/stm32l4x.cfg"
+                "target/stm32h7x.cfg"
             ],
             "interface": "swd",
             "runToEntryPoint": "main", // else it starts at reset handler - not interested
-            "svdFile": "/usr/local/cortex-debug-dp-stm32l4/data/STM32L4x5.svd", // Include svd to watch device peripherals
+            "svdFile": "/usr/local/cortex-debug-dp-stm32h7/data/STM32L4x5.svd", // Include svd to watch device peripherals
             "swoConfig": {
                 "enabled": false,
                 "cpuFrequency": 160000000,
@@ -45,11 +45,11 @@
             "servertype": "openocd",
             "configFiles": [
                 "interface/stlink.cfg",
-                "target/stm32l4x.cfg"
+                "target/stm32h7x.cfg"
             ],
             "interface": "swd",
             "runToEntryPoint": "main", // else it starts at reset handler - not interested
-            "svdFile": "/usr/local/cortex-debug-dp-stm32l4/data/STM32L4x5.svd", // Include svd to watch device peripherals
+            "svdFile": "/usr/local/cortex-debug-dp-stm32h7/data/STM32L4x5.svd", // Include svd to watch device peripherals
             "swoConfig": {
                 "enabled": false,
                 "cpuFrequency": 160000000,
