@@ -9,7 +9,7 @@
 #include "board.h"
 #include "flash.h"
 #include "stdbool.h"
-#include "stm32h7xx_hal.h"
+#include "stm32h7rsxx_hal.h"
 #include "string.h"
 #include "types.h"
 

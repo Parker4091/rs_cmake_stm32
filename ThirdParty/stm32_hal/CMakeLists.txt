@@ -1,16 +1,16 @@
 
 #--------------------------------------------------------------------
-FetchContent_GetProperties(stm32h7xx_hal_driver)
-if(NOT stm32h7xx_hal_driver_POPULATED)
-    FetchContent_Populate(stm32h7xx_hal_driver)
-    configure_file(${CMAKE_CURRENT_LIST_DIR}/stm32h7xx_hal_driver.cmake "${stm32h7xx_hal_driver_SOURCE_DIR}/CMakeLists.txt" COPYONLY)
-    add_subdirectory(${stm32h7xx_hal_driver_SOURCE_DIR} ${stm32h7xx_hal_driver_BINARY_DIR} EXCLUDE_FROM_ALL)
+FetchContent_GetProperties(stm32h7rsxx_hal_driver)
+if(NOT stm32h7rsxx_hal_driver_POPULATED)
+    FetchContent_Populate(stm32h7rsxx_hal_driver)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/stm32h7rsxx_hal_driver.cmake "${stm32h7rsxx_hal_driver_SOURCE_DIR}/CMakeLists.txt" COPYONLY)
+    add_subdirectory(${stm32h7rsxx_hal_driver_SOURCE_DIR} ${stm32h7rsxx_hal_driver_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 # No clang-tidy on this repo.
-target_ignore_static_analysis(TARGET stm32h7xx_hal_driver CLANG_TIDY)
+target_ignore_static_analysis(TARGET stm32h7rsxx_hal_driver CLANG_TIDY)
 
 #--------------------------------------------------------------------
-macro(add_stm32h7xx_hal_sys_lib  TARGET)
+macro(add_stm32h7rsxx_hal_sys_lib  TARGET)
 
 add_library(${TARGET} STATIC)
 
@@ -18,7 +18,7 @@ target_sources(${TARGET}
     INTERFACE
          src/syscalls.c
          src/sysmem.c
-         src/stm32h7xx_hal_msp.c
+         src/stm32h7rsxx_hal_msp.c
 )
 
 target_compile_options(${TARGET}
@@ -35,15 +35,15 @@ target_compile_options(${TARGET}
 
 endmacro()
 
-add_stm32h7xx_hal_sys_lib(stm32h7xx_hal_sys)
+add_stm32h7rsxx_hal_sys_lib(stm32h7rsxx_hal_sys)
 
-target_link_libraries(stm32h7xx_hal_sys
+target_link_libraries(stm32h7rsxx_hal_sys
     PRIVATE
-        stm32h7xx::hal_driver
+        stm32h7rsxx::hal_driver
 )
 
 
-target_clang_tidy_definitions(TARGET stm32h7xx_hal_sys
+target_clang_tidy_definitions(TARGET stm32h7rsxx_hal_sys
     CHECKS
         -altera-unroll-loops
         -bugprone-easily-swappable-parameters
@@ -59,5 +59,5 @@ target_clang_tidy_definitions(TARGET stm32h7xx_hal_sys
         -readability-non-const-parameter
 )
 
-add_library(stm32h7xx::hal_sys ALIAS stm32h7xx_hal_sys)
-add_library(stm32h7xx::hal_driver ALIAS stm32h7xx_hal_driver )
+add_library(stm32h7rsxx::hal_sys ALIAS stm32h7rsxx_hal_sys)
+add_library(stm32h7rsxx::hal_driver ALIAS stm32h7rsxx_hal_driver )

@@ -15,7 +15,7 @@ target_include_directories(peripherals_delay
 
 target_link_libraries(peripherals_delay
     PRIVATE
-        stm32h7xx::hal_driver
+        stm32h7rsxx::hal_driver
 )
 
 # -----------------------------------------------------------------------------

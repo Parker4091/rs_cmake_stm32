@@ -7,7 +7,7 @@
 /****************************** Includes ************************************/
 #include "app_assert.h"
 #include "board.h"
-#include "stm32h7xx_hal.h"
+#include "stm32h7rsxx_hal.h"
 #include "timer.h"
 #include "types.h"
 

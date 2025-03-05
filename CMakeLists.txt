@@ -117,7 +117,7 @@ add_subdirectory(ThirdParty)
 # Don't include mock or tests as part of coverage.
 list(APPEND COVERAGE_LCOV_EXCLUDES '*/mock/*' '*/test/*' '*/ThirdParty/*' '*/build/*'
     '*/src/stm32*' '*/src/main*' '*/src/cm4_handlers/*'
-    "${stm32h7xx_hal_driver_SOURCE_DIR}/*"
+    "${stm32h7rsxx_hal_driver_SOURCE_DIR}/*"
     "${fmt_SOURCE_DIR}/*"
 )
 setup_code_coverage_target()

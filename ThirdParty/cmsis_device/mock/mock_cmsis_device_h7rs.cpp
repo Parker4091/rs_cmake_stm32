@@ -1,5 +1,5 @@
 /// @brief Mock for CMSIS Device headers
-#include "mock_cmsis_device_h7.h"
+#include "mock_cmsis_device_h7rs.h"
 
 #include <cmock/cmock.h>
 

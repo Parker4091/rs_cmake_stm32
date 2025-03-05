@@ -30,7 +30,7 @@ target_clang_tidy_definitions(TARGET peripherals_watchdog
 
 target_link_libraries(peripherals_watchdog
     PRIVATE
-        stm32h7xx::hal_driver
+        stm32h7rsxx::hal_driver
 )
 
 # -----------------------------------------------------------------------------

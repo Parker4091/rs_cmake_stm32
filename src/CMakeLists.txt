@@ -51,7 +51,7 @@ target_link_options(mw_example_project
     $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-mfpu=fpv4-sp-d16>
     $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-mfloat-abi=hard>
     $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-specs=nosys.specs>
-    $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-T${CMAKE_CURRENT_LIST_DIR}/STM32L4S5ZITx_FLASH.ld>
+    $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-T${CMAKE_CURRENT_LIST_DIR}/STM32H7S3xx_FLASH.ld>
     $<$<BOOL:${CMAKE_CROSSCOMPILING}>:LINKER:--no-warn-rwx-segments> # https://community.st.com/s/question/0D53W00001vno1oSAA/warning-elffile-has-a-load-segment-with-rwx-permissions
 )
 
@@ -61,8 +61,8 @@ target_link_libraries(mw_example_project
         mw_example_project::peripherals
         mw_example_project::util
         mw_example_project::util::debug_logging
-        stm32h7xx::hal_sys
-        stm32h7xx::hal_driver
+        stm32h7rsxx::hal_sys
+        stm32h7rsxx::hal_driver
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-Wl,--start-group>
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:gcc>
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:c>
@@ -76,7 +76,7 @@ target_link_options(mw_example_project
         -Wl,--print-memory-usage
 )
 
-#set_target_properties(mw_example_project PROPERTIES LINK_DEPENDS STM32L4S5ZITx_FLASH.ld)
+#set_target_properties(mw_example_project PROPERTIES LINK_DEPENDS STM32H7S3xx_FLASH.ld)
 
 # Note: This copies the name with the appropriate postfix CMAKE_PROJECT_VERSION is defined by project()
 # in the top level CMakeLists.txt file.

@@ -34,7 +34,7 @@ target_link_libraries(peripherals_timer
         mw_example_project::hw_config
         mw_example_project::util
     PRIVATE
-        stm32h7xx::hal_driver
+        stm32h7rsxx::hal_driver
 )
 
 # -----------------------------------------------------------------------------

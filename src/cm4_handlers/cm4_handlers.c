@@ -3,7 +3,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "cm4_handlers.h"
-#include "stm32h7xx_hal.h"
+#include "stm32h7rsxx_hal.h"
 
 /******************************************************************************/
 /*           Cortex-M4 Processor Interruption and Exception Handlers          */

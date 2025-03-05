@@ -1,4 +1,4 @@
-/// @brief Mock for CMSIS Device L4 files
+/// @brief Mock for CMSIS Device H7RS files
 #pragma once
 
 #include <cmock/cmock.h>
@@ -15,7 +15,7 @@ public:
     MockCmsisDevice();  ///< Default Constructor
     ~MockCmsisDevice(); ///< Destructor
 
-    // system_stm32h7xx.h
-    CMOCK_MOCK_METHOD(void, SystemInit, ())
-    CMOCK_MOCK_METHOD(void, SystemCoreClockUpdate, ())
+    // system_stm32h7rsxx.h
+    CMOCK_MOCK_METHOD( void, SystemInit, () )
+    CMOCK_MOCK_METHOD( void, SystemCoreClockUpdate, () )
 };
