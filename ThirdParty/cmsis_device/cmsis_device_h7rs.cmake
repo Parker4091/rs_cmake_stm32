@@ -25,10 +25,10 @@ target_sources(cmsis_device_h7rs
     Include/stm32h7s7xx.h
     Include/system_stm32h7rsxx.h
 
-    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7R3xx>: ${_template_dir}/gcc/startup_stm32h7r3xx.s>
-    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7R7xx>: ${_template_dir}/gcc/startup_stm32h7r7xx.s>
-    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7S3xx>: ${_template_dir}/gcc/startup_stm32h7s3xx.s>
-    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7S7xx>: ${_template_dir}/gcc/startup_stm32h7s7xx.s>
+    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7R3xx>: ${_template_dir}/startup_stm32h7r3xx.s>
+    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7R7xx>: ${_template_dir}/startup_stm32h7r7xx.s>
+    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7S3xx>: ${_template_dir}/startup_stm32h7s3xx.s>
+    $<$<STREQUAL:${CMSIS_DEVICE_NAME},STM32H7S7xx>: ${_template_dir}/startup_stm32h7s7xx.s>
 )
 
 
