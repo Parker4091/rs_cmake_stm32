@@ -24,7 +24,7 @@ jobs:
 
       - name: Extract version and create tag
         run: |
-          VERSION=$(grep -oP 'project\(muon_powertest VERSION \K[^ ]+' CMakeLists.txt)
+          VERSION=$(grep -oP 'project\(mw_example_project VERSION \K[^ ]+' CMakeLists.txt)
           echo "Creating git tag: $VERSION"
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
