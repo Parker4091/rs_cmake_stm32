@@ -167,7 +167,7 @@ target_sources(${TARGET}
         Src/stm32h7rsxx_hal_mdios.c
         Src/stm32h7rsxx_hal_mmc.c
         Src/stm32h7rsxx_hal_mmc_ex.c
-        Src/stm32h7rsxx_hal_msp_template.c
+        # Src/stm32h7rsxx_hal_msp_template.c
         Src/stm32h7rsxx_hal_nand.c
         Src/stm32h7rsxx_hal_nor.c
         Src/stm32h7rsxx_hal_pcd.c
@@ -199,8 +199,8 @@ target_sources(${TARGET}
         Src/stm32h7rsxx_hal_sram.c
         Src/stm32h7rsxx_hal_tim.c
         Src/stm32h7rsxx_hal_tim_ex.c
-        Src/stm32h7rsxx_hal_timebase_rtc_wakeup_template.c
-        Src/stm32h7rsxx_hal_timebase_tim_template.c
+        # Src/stm32h7rsxx_hal_timebase_rtc_wakeup_template.c
+        # Src/stm32h7rsxx_hal_timebase_tim_template.c
         Src/stm32h7rsxx_hal_uart.c
         Src/stm32h7rsxx_hal_uart_ex.c
         Src/stm32h7rsxx_hal_usart.c

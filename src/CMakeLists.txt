@@ -57,10 +57,10 @@ target_link_options(mw_example_project
 
 target_link_libraries(mw_example_project
     PRIVATE
-        mw_example_project::hw_config
-        mw_example_project::peripherals
-        mw_example_project::util
-        mw_example_project::util::debug_logging
+        # mw_example_project::hw_config
+        # mw_example_project::peripherals
+        # mw_example_project::util
+        # mw_example_project::util::debug_logging
         stm32h7rsxx::hal_sys
         stm32h7rsxx::hal_driver
         $<$<BOOL:${CMAKE_CROSSCOMPILING}>:-Wl,--start-group>
@@ -92,7 +92,7 @@ if (CMAKE_CROSSCOMPILING)
 endif()
 
 # -----------------------------------------------------------------------------
-add_subdirectory(hw_config)
-add_subdirectory(peripherals)
+# add_subdirectory(hw_config)
+# add_subdirectory(peripherals)
 add_subdirectory(stm32_hal_conf)
-add_subdirectory(util)
+# add_subdirectory(util)
