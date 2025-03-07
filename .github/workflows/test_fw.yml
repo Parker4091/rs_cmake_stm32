@@ -178,7 +178,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "PowerTest PCB Version A"
+          - name: "Example PCB Version A"
             build_dir: ci_build/powertest-pcb-A
             pcb_version: 0
     env:
@@ -201,7 +201,7 @@ jobs:
       - name: Compile Elf File Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: PowerTest-PCB-${{ matrix.pcb_version }}-elf-files
+          name: Example-PCB-${{ matrix.pcb_version }}-elf-files
           path: |
               ${{ matrix.build_dir }}/src/*/*.elf
               ${{ matrix.build_dir }}/src/*/*.hex
