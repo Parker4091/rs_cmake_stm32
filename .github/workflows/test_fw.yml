@@ -179,7 +179,7 @@ jobs:
       matrix:
         include:
           - name: "Example PCB Version A"
-            build_dir: ci_build/powertest-pcb-A
+            build_dir: ci_build/example-pcb-A
             pcb_version: 0
     env:
       CMAKE_BUILD_ARGS: -DSTATIC_ANALYSIS=OFF -DBUILD_TEST=OFF
