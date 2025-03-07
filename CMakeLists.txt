@@ -32,7 +32,7 @@ endif()
 #
 # Project-wide settings
 # Note: CXX is only for the test environment code.
-project(mw_example_project VERSION 0.0.2 LANGUAGES C CXX)
+project(mw_example_project VERSION 0.0.1 LANGUAGES C CXX)
 
 if (CMAKE_CROSSCOMPILING)
     message(STATUS "Cross compiling Build targets")
