@@ -1,9 +1,9 @@
 FROM ghcr.io/retlek-systems-inc/rs_cmake/sw-arm-none-eabi:latest
 
-# Add the SVD files for STM32
-RUN mkdir -p /usr/local
-WORKDIR /usr/local
-RUN git clone https://github.com/Marus/cortex-debug-dp-stm32h7.git
+# # Add the SVD files for STM32
+# RUN mkdir -p /usr/local
+# WORKDIR /usr/local
+# RUN git clone https://github.com/Marus/cortex-debug-dp-stm32l4.git
 
 
 # Install the stlink util

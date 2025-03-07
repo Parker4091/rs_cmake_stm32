@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-set(CMSIS_DEVICE_NAME stm32h7rsxxxx CACHE STRING "Device Name for CMSIS")
+set(CMSIS_DEVICE_NAME STM32H7S3xx CACHE STRING "Device Name for CMSIS")
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(_template_dir Source/Templates/gcc)

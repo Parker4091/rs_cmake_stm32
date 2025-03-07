@@ -8,7 +8,7 @@ target_sources(${TARGET}
         Inc/stm32h7rsxx_hal_adc.h
         Inc/stm32h7rsxx_hal_adc_ex.h
         Inc/stm32h7rsxx_hal_cec.h
-        Inc/stm32h7rsxx_hal_conf_template.h
+        # Inc/stm32h7rsxx_hal_conf_template.h
         Inc/stm32h7rsxx_hal_cordic.h
         Inc/stm32h7rsxx_hal_cortex.h
         Inc/stm32h7rsxx_hal_crc.h

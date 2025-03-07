@@ -59,5 +59,12 @@ target_clang_tidy_definitions(TARGET stm32h7rsxx_hal_sys
         -readability-non-const-parameter
 )
 
-add_library(stm32h7rsxx::hal_sys ALIAS stm32h7rsxx_hal_sys)
-add_library(stm32h7rsxx::hal_driver ALIAS stm32h7rsxx_hal_driver )
+add_subdirectory(mock)
+
+if(CMAKE_CROSSCOMPILING)
+    add_library(stm32h7rsxx::hal_sys ALIAS stm32h7rsxx_hal_sys)
+    add_library(stm32h7rsxx::hal_driver ALIAS stm32h7rsxx_hal_driver )
+else()
+    add_library(stm32h7rsxx::hal_sys ALIAS Mock_stm32h7rsxx_hal_sys)
+    add_library(stm32h7rsxx::hal_driver ALIAS Mock_stm32h7rsxx_hal_driver )
+endif()

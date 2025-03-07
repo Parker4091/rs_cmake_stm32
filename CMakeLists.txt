@@ -115,7 +115,7 @@ add_subdirectory(ThirdParty)
 # Note need to do this last because requires all of the sub-components to
 # add/append to the COVERAGE_LCOV_EXCLUDES cached variable.
 # Don't include mock or tests as part of coverage.
-list(APPEND COVERAGE_LCOV_EXCLUDES '*/mock/*' '*/test/*' '*/ThirdParty/*' '*/build/*'
+list(APPEND COVERAGE_LCOV_EXCLUDES '*/mock/*' '*/test/*' '*/src/peripherals/*' '*/ThirdParty/*' '*/build/*'
     '*/src/stm32*' '*/src/main*' '*/src/cm4_handlers/*'
     "${stm32h7rsxx_hal_driver_SOURCE_DIR}/*"
     "${fmt_SOURCE_DIR}/*"
