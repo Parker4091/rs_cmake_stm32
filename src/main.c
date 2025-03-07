@@ -87,7 +87,7 @@ void SystemClock_Config( void )
   */
     if( HAL_PWREx_ControlVoltageScaling( PWR_REGULATOR_VOLTAGE_SCALE0 ) != HAL_OK )
     {
-        Error_Handler();
+        // Error_Handler();
     }
 
     /** Initializes the RCC Oscillators according to the specified parameters
