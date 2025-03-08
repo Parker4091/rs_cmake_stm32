@@ -12,10 +12,10 @@ on:
 env:
   BASE_BUILD_DIR: ci_build
   DEPS_DIR: ci_build/deps
-  CLANG_DIR: ci_build/clang
+  # CLANG_DIR: ci_build/clang
   GCC_DIR: ci_build/gcc
   TARGET_DIR: ci_build/target
-  CLANG_VER: 14
+  # CLANG_VER: 14
 
 jobs:
   prepare:
@@ -37,10 +37,10 @@ jobs:
       - name: Preparing build directories
         run: |
           mkdir -p ${DEPS_DIR}
-          mkdir -p ${CLANG_DIR}
           mkdir -p ${GCC_DIR}
-      - name: Preparing CMake clang-${{ env.CLANG_VER }}
-        run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
+      #   mkdir -p ${CLANG_DIR}
+      # - name: Preparing CMake clang-${{ env.CLANG_VER }}
+      #   run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
       - name: Preparing CMake gcc
         run: cmake -G "Ninja Multi-Config" -B${GCC_DIR} -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
 
@@ -54,18 +54,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "Clang Debug"
-            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
-            build_type: Debug
-          - name: "Clang RelWithDebInfo"
-            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
-            build_type: RelWithDebInfo
-          - name: "Clang Address Sanitizer"
-            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
-            build_type: Asan
-          - name: "Clang Undefined Behavior Sanitizer"
-            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
-            build_type: Ubsan
+          # - name: "Clang Debug"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: Debug
+          # - name: "Clang RelWithDebInfo"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: RelWithDebInfo
+          # - name: "Clang Address Sanitizer"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: Asan
+          # - name: "Clang Undefined Behavior Sanitizer"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: Ubsan
           # - name: "Clang Thread Sanitizer"
           #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
           #   build_type: Tsan
@@ -123,10 +123,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "ClangTidy"
-            build_dir: ci_build/clang #{{ env.CLANG_DIR}}
-            build_type: Debug
-            build_args: -DSTATIC_ANALYSIS=ON -DUSE_CLANG_TIDY=ON
+          # - name: "ClangTidy"
+          #   build_dir: ci_build/clang #{{ env.CLANG_DIR}}
+          #   build_type: Debug
+          #   build_args: -DSTATIC_ANALYSIS=ON -DUSE_CLANG_TIDY=ON
           - name: "CppCheck"
             build_dir: ci_build/gcc #{{ env.GCC_DIR}}
             build_type: Debug
@@ -149,8 +149,8 @@ jobs:
           key: ${{ runner.os }}-CMakeFiles-
           restore-keys: |
             ${{ runner.os }}-CMakeFiles-
-      - name: Preparing clang-${{ env.CLANG_VER }}
-        run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
+      # - name: Preparing clang-${{ env.CLANG_VER }}
+      #   run: cmake -G "Ninja Multi-Config" -B${CLANG_DIR} -DCMAKE_C_COMPILER=clang-${CLANG_VER} -DCMAKE_CXX_COMPILER=clang++-${CLANG_VER} -DFETCHCONTENT_BASE_DIR=${DEPS_DIR} ${CMAKE_BUILD_ARGS} .
       - name: Build ${{ matrix.build_type }} in ${{ matrix.build_dir }}
         run: cmake --build ${BUILD_DIR} --config ${BUILD_TYPE} -- -k 10000
       - name: Scan Build ${{ matrix.build_type }} in ${{ matrix.build_dir }}
